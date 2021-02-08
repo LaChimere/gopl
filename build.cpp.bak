@@ -1,0 +1,67 @@
+#include <dirent.h>
+#include <sys/types.h>
+#include <cstring>
+#include <iostream>
+#include <string>
+#include <algorithm>
+
+void buildGo() {
+    DIR *pDir = opendir(".");
+
+    struct dirent *pDirent;
+    while ((pDirent = readdir(pDir)) != NULL) {
+        std::string filename(pDirent->d_name);
+        size_t nameLen = filename.length();
+        if (nameLen > 3) {
+            std::string suffix = filename.substr(nameLen - 3);
+            if (filename.substr(nameLen - 3) == ".go") {
+                std::cout << "building " << filename << " ..." << std::endl;
+
+                // go build -o filename.out filename
+                std::string buildCmd = "go build -o " + filename + ".out " + filename;
+                system(buildCmd.c_str());
+            }
+        }
+    }
+
+    closedir(pDir);
+}
+
+void cleanGoOut() {
+    DIR *pDir = opendir(".");
+
+    struct dirent *pDirent;
+    while ((pDirent = readdir(pDir)) != NULL) {
+        std::string filename(pDirent->d_name);
+        size_t nameLen = filename.length();
+        if (nameLen > 7) {
+            std::string suffix = filename.substr(nameLen - 7);
+            if (filename.substr(nameLen - 7) == ".go.out") {
+                std::cout << "removing " << filename << " ..." << std::endl;
+
+                std::string buildCmd = "rm " + filename;
+                system(buildCmd.c_str());
+            }
+        }
+    }
+
+    closedir(pDir);
+}
+
+int main(int argc, char *argv[]) {
+    if (argc == 2) {
+        if (strcmp(argv[1], "clean") == 0) {
+            cleanGoOut();
+            exit(0);
+        }
+        else {
+            std::cerr << "usage: ./build clean" << std::endl;
+            exit(1);
+        }
+    }
+
+    buildGo();
+
+    return 0;
+}
+
