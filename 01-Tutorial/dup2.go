@@ -17,11 +17,11 @@ func main() {
 		for _, arg := range files {
 			f, err := os.Open(arg)
 			if err != nil {
-				_, _ = fmt.Fprintf(os.Stderr, "dup2: %v\n", err)
+				fmt.Fprintf(os.Stderr, "dup2: %v\n", err)
 				continue
 			}
 			countLines(f, counts)
-			_ = f.Close()
+			f.Close()
 		}
 		for line, n := range counts {
 			if n > 1 {
