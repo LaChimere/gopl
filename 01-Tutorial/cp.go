@@ -19,7 +19,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	err = ioutil.WriteFile(dest, data, 0644)
+	err = ioutil.WriteFile(dest, data, 0664)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "WriteFile: %v\n", err)
 		os.Exit(1)
