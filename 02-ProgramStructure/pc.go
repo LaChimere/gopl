@@ -6,7 +6,7 @@ import (
 	"os"
 	"strconv"
 
-	"golang-tutorial/02-ProgramStructure/popcount"
+	"gopl/02-ProgramStructure/popcount"
 )
 
 func main() {
