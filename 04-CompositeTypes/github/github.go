@@ -23,7 +23,7 @@ type Issue struct {
 	HTMLURL   string `json:"html_url"`
 	Title     string
 	State     string
-	User      string
+	User      *User
 	CreatedAt time.Time `json:"created_at"`
 	Body      string    // in Markdown format
 }
